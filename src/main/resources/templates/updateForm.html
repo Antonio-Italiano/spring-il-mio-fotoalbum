@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form th:action="@{/admin/foto/update/{id}(id = ${foto.id})}" method="post" sec:authorize="hasAuthority('SUPERADMIN')" enctype="multipart/form-data">
+		<label>titolo:</label>
+		<input type="text" name="titolo" th:value="${foto.titolo}">
+		
+		<label>descrizione:</label>
+		<textarea rows="10" cols="10" name="descrizione" th:text="${foto.descrizione}"></textarea>
+		
+		<label>url:</label>
+		<textarea rows="10" cols="10" name="url" th:text="${foto.url}"></textarea>
+		
+		<label>visibile:</label>
+		<label>SI</label>
+		<input type="radio" name="visibile" value="1" th:checked="${foto.visibile} == true">
+		<label>NO</label>
+		<input type="radio" name="visibile" value="0" th:checked="${foto.visibile} == false">
+		
+		<div th:each="categoria : ${categorie}">
+			<input th:id="${'categoria-' + categoria.id}" th:value="${categoria.id}" type="checkbox" name="categorie" th:checked="${foto.categorie != null and foto.categorie.contains(categoria)}">
+			<label th:for="${'categoria-' + categoria.id}">[[ ${categoria.nome} ]]</label>
+		</div>
+		
+		<label for="user">inserisci un utente:</label>
+
+		<select name="user" id="user">
+		  <option th:each="user : ${user}" th:value="${user.id}" th:selected="${foto.getUser() != null and foto.getUser().getId() == user.id ? 'true' : 'false'}">[[${user.username}]]</option>
+		</select>
+				
+		
+		<button type="submit">Modifica</button>
+	</form>
+	
+	<form th:action="@{/user/foto/update/{id}(id = ${foto.id})}" method="post" sec:authorize="hasAuthority('ADMIN')" enctype="multipart/form-data">
+	
+		<label>titolo:</label>
+		<input type="text" name="titolo" th:value="${foto.titolo}">
+		
+		<label>descrizione:</label>
+		<textarea rows="10" cols="10" name="descrizione" th:text="${foto.descrizione}"></textarea>
+		
+		<label>url:</label>
+		<textarea rows="10" cols="10" name="url" th:text="${foto.url}"></textarea>
+		
+		<label>visibile:</label>
+		<label>SI</label>
+		<input type="radio" name="visibile" value="1" th:checked="${foto.visibile} == true">
+		<label>NO</label>
+		<input type="radio" name="visibile" value="0" th:checked="${foto.visibile} == false">
+		
+		
+		<div th:each="categoria : ${categorie}">
+			<input th:id="${'categoria-' + categoria.id}" th:value="${categoria.id}" type="checkbox" name="categorie" th:checked="${foto.categorie != null and foto.categorie.contains(categoria)}">
+			<label th:for="${'categoria-' + categoria.id}">[[ ${categoria.nome} ]]</label>
+		</div>
+		
+		<button type="submit">Modifica</button>
+	</form>
+	
+</body>
+</html>

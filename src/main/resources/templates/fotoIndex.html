@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+<title>Insert title here</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center">
+	  <div class="d-flex w-75">
+	    <a class="navbar-brand" href="/">FOTO ALBUM</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+	      <ul class="navbar-nav">
+	        <li class="nav-item">
+	          <a class="nav-link" href="/login" sec:authorize="!isAuthenticated()">Login</a>
+	        </li>
+	        <li class="nav-item">
+	          	<a class="nav-link" th:href="@{/admin/categorie}" sec:authorize="hasAuthority('ADMIN')">Categorie</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	
+	<div class="d-flex justify-content-center">
+	
+		<form method="get" th:action="@{/admin/foto/filtro}"  sec:authorize="hasAuthority('ADMIN')">
+			<input type="text" name="titolo" th:value="${titolo}">
+			<button type="submit">Cerca</button>
+		</form>
+	
+		<form method="get" th:action="@{/user/foto/filtro}"  sec:authorize="hasAuthority('USER')">
+			<input type="text" name="titolo" th:value="${titolo}">
+			<button type="submit">Cerca</button>
+		</form>
+		
+		<a class="btn btn-primary mx-3" th:href="@{/admin/foto/create}" sec:authorize="hasAuthority('ADMIN')">Inserisci nuova foto</a>
+		<a class="btn btn-primary mx-3" th:href="@{/user/foto/create}" sec:authorize="hasAuthority('USER')">Inserisci nuova foto</a>
+		
+	</div>
+	
+	<div class="d-flex justify-content-center">
+		<table class="table w-50" th:if="${foto.size() != 0}">
+		  <thead>
+		    <tr>
+		      <th scope="col">id</th>
+		      <th scope="col">titolo</th>
+		      <th scope="col">descrizione</th>
+		      <th scope="col">img</th>
+		      <th scope="col">visibile</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="foto : ${foto}">
+		      <th scope="row" th:text="${foto.id}"></th>
+		      <td th:text="${foto.titolo}"></td>
+		      <td th:text="${foto.descrizione}"></td>
+		      <td><img style="width: 100px" th:src="${foto.url}" alt="Immagine"/></td>
+		      <td th:text="${foto.visibile}"></td>
+		        <td>
+		      		<a class="btn btn-secondary" th:href="@{/admin/foto/{id}(id=${foto.id})}"  sec:authorize="hasAuthority('ADMIN')">show</a>
+		      		<a class="btn btn-secondary" th:href="@{/user/foto/{id}(id=${foto.id})}"  sec:authorize="hasAuthority('USER')">show</a>
+		    	</td>
+		    	<td>
+		      		<a class="btn btn-primary" th:href="@{/admin/foto/update/{id}(id=${foto.id})}"  sec:authorize="hasAuthority('ADMIN')">update</a>
+		      		<a class="btn btn-primary" th:href="@{/user/foto/update/{id}(id=${foto.id})}"  sec:authorize="hasAuthority('USER')">update</a>
+		    	</td>
+		    	<td>
+		      		<a class="btn btn-danger" th:href="@{/admin/foto/delete/{id}(id=${foto.id})}"  sec:authorize="hasAuthority('ADMIN')">delete</a>
+		      		<a class="btn btn-danger" th:href="@{/user/foto/delete/{id}(id=${foto.id})}"  sec:authorize="hasAuthority('USER')">delete</a>
+		    	</td>
+		    </tr>
+		  </tbody>
+		</table>
+
+		<div th:if="${foto.size() == 0}">
+			<h1>Nessuna foto da visualizzare</h1>
+		</div>
+	</div>
+</body>
+</html>

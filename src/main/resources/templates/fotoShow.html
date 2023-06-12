@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+<title>Insert title here</title>
+</head>
+<body>
+	<a class="btn btn-primary" href="/admin/foto" sec:authorize="hasAuthority('ADMIN')">Foto</a>
+	<a class="btn btn-primary" href="/user/foto" sec:authorize="hasAuthority('USER')">Foto</a>
+	<div>
+		<h4 th:text="${foto.id}"></h4>
+		<h1 th:text="${foto.titolo}"></h1>
+		<p th:text="${foto.descrizione}"></p>
+		<h6 th:text="${foto.visibile}"></h6>
+		
+		<img th:src="${foto.url}" alt="Immagine"/>	
+	</div>
+	
+	
+	<div>
+		<p th:each="categoria : ${categorie}" th:text="${categoria.nome}"></p>
+	</div>
+	<hr>
+	<div th:if="${foto.notifiche.size() > 0}">
+		<p>Mittente</p>
+		<p th:each="notifiche : ${notifiche}" th:text="${notifiche.email}"></p>
+		<p>Messaggio</p>
+		<p th:each="notifiche : ${notifiche}" th:text="${notifiche.messaggio}"></p>
+	</div>
+
+</body>
+</html>

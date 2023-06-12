@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+<title>Insert title here</title>
+<style>
+    body {
+        background-image: url("https://www.direfare.net/wp-content/uploads/2021/09/esagono_021-1024x576.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center">
+	  <div class="d-flex w-75">
+	    <a class="navbar-brand" href="/">FOTO ALBUM</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+	      <ul class="navbar-nav">
+	        <li class="nav-item">
+	          <a class="nav-link" href="/login" sec:authorize="!isAuthenticated()">Login</a>
+	        </li>
+	        <li class="nav-item">
+	          	<a class="nav-link" href="/admin/foto" sec:authorize="hasAuthority('ADMIN')">Foto</a>
+	        </li>
+	        <li class="nav-item">
+	          	<a class="nav-link" href="/user/foto" sec:authorize="hasAuthority('USER')">Foto</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</body>
+</html>

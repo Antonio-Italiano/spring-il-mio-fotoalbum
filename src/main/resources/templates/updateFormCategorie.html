@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form th:action="@{/admin/categorie/update/{id}(id = ${categorie.id})}" method="post">
+
+		<label>titolo:</label>
+		<input type="text" name="nome" th:value="${categorie.nome}">
+		
+		<button type="submit">Modifica</button>
+	</form>
+	
+</body>
+</html>
